@@ -1,6 +1,35 @@
 console.log("userControllers");
 
+const jwt = require("jsonwebtoken");
 const Users = require("../utils/userDb-model.js");
+const secrets = require("../utils/secrets.js");
+
+const generateToken = user => {
+  //====1st way of writing it....=====
+  const payload = {
+    //list of "claims"; aka permissions for user
+    subject: user.id,
+    username: user.username,
+    department: user.department //remove or keep???
+  };
+  const options = {
+    expiresIn: "1h"
+  };
+  return jwt.sign(payload, secrets.jwtSecret, options);
+
+  //=========
+  /* ===2nd way to write it....===
+  return jwt.sign(
+    {
+      subject: user.id,
+      username: user.username,
+      department: user.department
+    },
+    secrets.jwtSecret,
+    { expiresIn: "1h" }
+  );
+  */
+};
 
 // ================================
 //            POST
@@ -13,9 +42,11 @@ exports.createUser = (req, res, next) => {
 
   Users.add(user)
     .then(newUser => {
+      const newUserToken = generateToken(newUser);
+
       res
         .status(201) //success
-        .json(newUser);
+        .json({ SuccessMessage: `${newUser}`, authToken: `${newUserToken}` });
     })
     .catch(err => {
       res
@@ -41,9 +72,15 @@ exports.userLogin = (req, res, next) => {
 // @desc    GET to obtain all users
 // @route   GET to /api/users
 exports.getAllUsers = (req, res, next) => {
+  const loggedInUser = req.session.user;
   console.log("userController.getAllUsers:", req.session);
+  console.log(
+    "\nuserController.getAllUsers.users.department:",
+    loggedInUser.department
+  );
   Users.find()
     .orderBy("id")
+    .where(loggedInUser)
     .then(users => {
       res
         .status(200) //success

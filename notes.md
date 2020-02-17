@@ -10,3 +10,5 @@ $ yarn add knex sqlite3
 $ yarn knex migrate:make users
 $ yarn knex seed:make 000-cleanup
 --> fix 'users' in migration, and '000-cleanup' in seeds
+
+\$ yarn add jsonwebtoken
