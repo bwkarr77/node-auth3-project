@@ -15,6 +15,7 @@ const generateToken = user => {
   const options = {
     expiresIn: "1h"
   };
+  console.log("generateToken: \n", payload, secrets.jwtSecret, options);
   return jwt.sign(payload, secrets.jwtSecret, options);
 
   //=========
@@ -37,21 +38,26 @@ const generateToken = user => {
 // @desc    POST/CREATE new user
 // @route   POST to /api/auth/register
 exports.createUser = (req, res, next) => {
-  console.log("userController.createUser");
   let user = req.body;
+  console.log("userController.createUser", user);
 
   Users.add(user)
     .then(newUser => {
+      console.log("createUser.step1");
       const newUserToken = generateToken(newUser);
+      console.log("createUser.step2");
 
       res
         .status(201) //success
-        .json({ SuccessMessage: `${newUser}`, authToken: `${newUserToken}` });
+        .json({
+          SuccessMessage: `${newUser.username}`,
+          token: `${newUserToken}`
+        });
     })
     .catch(err => {
       res
         .status(500) //error
-        .json({ errMessage: `${err}` });
+        .json({ errMessage: `createUser error: ${err}` });
     });
 };
 
@@ -61,9 +67,19 @@ exports.createUser = (req, res, next) => {
 // @desc    login with credentials in header
 // @route   POST to /api/auth/login
 exports.userLogin = (req, res, next) => {
+  const loginUserToken = generateToken(req.body);
   let { user, loggedin } = req.session;
-  console.log("userControllers>userLogin:", user, loggedin);
-  res.status(200).json({ message: `Login success ${user.username}!!!` });
+  console.log(
+    "userControllers>userLogin:",
+    user,
+    loggedin,
+    "\nloginUserToken:",
+    loginUserToken
+  );
+  res.status(200).json({
+    message: `Login success ${user.username}!!!`,
+    token: `${loginUserToken}`
+  });
 };
 
 // ================================
@@ -80,7 +96,7 @@ exports.getAllUsers = (req, res, next) => {
   );
   Users.find()
     .orderBy("id")
-    .where(loggedInUser)
+    // .where(loggedInUser.department)
     .then(users => {
       res
         .status(200) //success

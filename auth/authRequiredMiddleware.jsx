@@ -40,6 +40,7 @@ exports.restricted = (req, res, next) => {
   if (req.session.loggedin && req.session.loggedin === true) {
     next();
   } else {
+    console.log("restriced validation failed", req.session);
     res
       .status(400) //error
       .json({ errMessage: "Not logged in" });

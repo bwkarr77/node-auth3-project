@@ -1,0 +1,123 @@
+/*=======DataSubmission Component======*/
+
+/* Container/Dropdown */
+.dataField-container {
+  border: solid black;
+  width: 40%;
+  background: rgb(170, 170, 216);
+  font-size: 1.3vw;
+}
+.dropdown-option-show {
+  background: lightblue;
+  border: 1px solid brown;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-button {
+  width: 150px;
+}
+
+/* ===Spidergraph Data Section=== */
+.data-display {
+  border: solid darkmagenta;
+  width: 90%;
+}
+/* __header__ */
+.data-header {
+  display: flex;
+  height: auto;
+  width: 80%;
+  justify-content: space-evenly;
+  margin: auto;
+}
+.dataField-container ul {
+  list-style-type: none;
+  width: 80%;
+  display: flex;
+  margin: auto 0px;
+  padding: auto 0px;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+/* .branch-names {
+  background: rgb(117, 181, 211);
+  color: white;
+  font-size: 1em;
+  display: inline-block;
+  transform: rotate(290deg);
+} */
+/* __data__ */
+.data {
+  /* styling for the retrieved data */
+  border: 1px solid black;
+  margin: 0 5px;
+  padding: 0 5px;
+}
+.delete {
+  width: 8px;
+  border: solid black 1px;
+  background: rgb(187, 186, 186);
+  margin: 5px;
+}
+.dataField-container li {
+  text-align: left;
+}
+.dataset-names {
+  /* styling for retrieved dataset names */
+  background: rgb(117, 123, 211);
+  color: white;
+  font-size: 1em;
+}
+/*..End Spidergraph Data Section..*/
+
+/* ===New Dataset Section=== */
+.newDataset {
+  border: solid darkolivegreen;
+  display: flex;
+  flex-direction: column;
+}
+.newDataset-name,
+.editDataset-name {
+  width: 50%;
+}
+.newData-input {
+  width: 50px;
+}
+/*..End of New Dataset Section..*/
+
+/* ===New Branch Section=== */
+.newBranch {
+  border: solid brown;
+  display: flex;
+  flex-direction: column;
+}
+.newBranch input,
+button {
+  width: 50%;
+}
+/* ..End New Branch Section.. */
+
+/* apply to multiple sections */
+.dataField-container input {
+  font-size: 0.9em;
+}
+
+/*====SPIDERGRAPH SECTION=====*/
+.spiderGraph {
+  display: flex;
+  flex-direction: row;
+}
+.chartField {
+  width: 60%;
+  background: rgb(157, 219, 181);
+}
+
+.graph-details {
+  border: 1px brown solid;
+  background: rgb(212, 238, 212);
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
