@@ -23,7 +23,10 @@ exports.authorize = (req, res, next) => {
         if (user && boolRet) {
           req.session.user = user;
           req.session.loggedin = true;
-          console.log("authRequiredMiddleware Success!!!", req.session);
+          console.log(
+            "authRequiredMiddleware Success!!!, req.session:",
+            req.session
+          );
           next();
         } else {
           res.status(401).json({ message: "Invalid Credentials" });

@@ -90,10 +90,6 @@ exports.userLogin = (req, res, next) => {
 exports.getAllUsers = (req, res, next) => {
   const loggedInUser = req.session.user;
   console.log("userController.getAllUsers:", req.session);
-  console.log(
-    "\nuserController.getAllUsers.users.department:",
-    loggedInUser.department
-  );
   Users.find()
     .orderBy("id")
     // .where(loggedInUser.department)

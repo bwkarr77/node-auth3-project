@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { login, handleChange } from "../../actions/actions";
 
-const pushDir1 = "/spiderGraph";
+const pushDir1 = "/userData";
 
 const Login = ({
   history,

@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-// import { SketchPicker } from "react-color";
-//Aplpha/Block/Chrome/Circle/Compact/Github/Hue/Material/Photoshop/Sketch/Slider/Swatches/Twitter+Picker
-//  https://www.npmjs.com/package/react-color
 
 import { startEdit, deleteUnit, getData } from "../../actions/actions";
 
@@ -12,17 +9,42 @@ const UserData = ({
   deleteUnit,
   state,
   getData,
-  reFetch
+  reFetch,
+  token,
+  isFetch,
+  credentials
 }) => {
   // const { labels, datasets } = userData;
   useEffect(() => {
     getData();
+    console.log("UserData.getData()", credentials);
   }, []);
 
-  console.log("userData:", userData);
+  console.log(
+    "userData, token:",
+    token,
+    "\nuserData:",
+    userData,
+    "\nstate:",
+    state
+  );
   return (
     <div>
       <h3>UserData:</h3>
+      {userData ? (
+        <ul>
+          {userData.map(ele => {
+            console.log(".foreach:", ele.id);
+            return (
+              <li>
+                Users: {ele.username}, Department: {ele.department}
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p>loading....</p>
+      )}
     </div>
   );
 };
@@ -70,7 +92,11 @@ const UserData = ({
 const mapStateToProps = state => ({
   error: state.error,
   state: state,
-  reFetch: state.reFetch
+  reFetch: state.reFetch,
+  token: state.token,
+  isFetch: state.isFetching,
+  userData: state.userData,
+  credentials: state.credentials
 });
 
 export default connect(mapStateToProps, { startEdit, deleteUnit, getData })(

@@ -7,6 +7,8 @@ const { getAllUsers, logout } = require("../routers/userControllers.jsx");
 
 //get all users IF successful login
 router.route("/users").get(restricted, getAllUsers);
+// router.route("/users").get(getAllUsers);
+
 //logout function
 router.route("/logout").delete(logout);
 

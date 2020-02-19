@@ -1,6 +1,5 @@
 // import axios from "axios";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-import { data, data2 } from "../components/dummycomps/Data.jsx"; //can remove after api is set up
 
 //var names with all caps lock represents global variables
 export const GLOBAL_VAR_1 = "GLOBAL_VAR_1";
@@ -85,9 +84,10 @@ export const register = (event, credentials) => dispatch => {
 };
 
 //get data from api
-export const getData = dummyStuff => dispatch => {
+export const getData = () => dispatch => {
   //====
   console.log("getData start..");
+  console.log(localStorage.getItem("token"));
   dispatch({ type: GETDATASTART });
   axiosWithAuth()
     .get(`${apiGet}`)

@@ -45,29 +45,7 @@ const initialState = {
   //getting data from API or similar
   isFetching: false,
   //data storage
-  userData: {
-    userName: "",
-    labels: [],
-    datasets: [{ id: "", label: "", data: [] }]
-  },
-  userData2: {
-    graphs: [
-      {
-        id: "",
-        title: "",
-        description: "",
-        userName: "",
-        labels: [],
-        datasets: [
-          {
-            id: "",
-            dataset_label: "",
-            data: []
-          }
-        ]
-      }
-    ]
-  },
+  userData: "",
   //adding data
   isAdding: false,
   newData: {
@@ -145,6 +123,7 @@ export const rootReducer = (state = initialState, { type, payload }) => {
       };
     //=====Getting data from api=====
     case GETDATASTART:
+      console.log("GETDATASTART\n");
       return {
         ...state,
         error: "",
@@ -153,18 +132,13 @@ export const rootReducer = (state = initialState, { type, payload }) => {
     case GETDATASUCCESS:
       console.log(
         "reducers>GETDATASUCCESS>payload, userData, newData:\n",
-        payload,
-        "\n",
-        state.userData,
-        "\n",
-        state.newData
+        payload
       );
       return {
         ...state,
         error: "",
         isFetching: false,
-        userData: payload[0],
-        userData2: payload[1]
+        userData: payload
       };
     case GETDATAFAIL:
       return {
@@ -211,23 +185,7 @@ export const rootReducer = (state = initialState, { type, payload }) => {
           label: "",
           data: []
         },
-        isEditing: false,
-        userData: {
-          ...state.userData,
-          userName: payload.userName,
-          labels: payload.branches,
-          datasets: state.userData.datasets.map((dataset, index) => {
-            if (index === id1) {
-              console.log("index matches!!!", dataset);
-              return {
-                ...state.userData.datasets[index],
-                label: payload.dataLabel,
-                data: payload.datasets
-              };
-            }
-            return dataset;
-          })
-        }
+        isEditing: false
       };
     case EDITDATAFAIL:
       return {
@@ -238,13 +196,6 @@ export const rootReducer = (state = initialState, { type, payload }) => {
       };
     //===Handle Change=====
     case HANDLECHANGE:
-      //
-      let branchLength = state.userData.labels.length;
-      if (state.newData.data.length === 0) {
-        for (let i = 0; i < branchLength; i++) {
-          state.newData.data[i] = 0;
-        }
-      }
       //switch case due to too many cases
       switch (
         payload.form //different management depending on the form
@@ -364,10 +315,7 @@ export const rootReducer = (state = initialState, { type, payload }) => {
         //getting data from API or similar
         isFetching: false,
         //data storage
-        userData: {
-          labels: [],
-          datasets: [{ id: "", label: "", data: [] }]
-        },
+        userData: "",
         // is_Array1: [],
         // is_Object1: {},
         //adding data
