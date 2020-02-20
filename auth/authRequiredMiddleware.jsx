@@ -2,7 +2,7 @@
 
 const users = require("../utils/userDb-model.js");
 const bcrypt = require("bcryptjs");
-const { jwtSecrets } = require("../utils/secrets.js");
+const secrets = require("../utils/secrets.js");
 const jwt = require("jsonwebtoken");
 
 exports.authorize = (req, res, next) => {
@@ -51,15 +51,15 @@ exports.restricted = (req, res, next) => {
 
   const token = req.headers.authorization;
   if (token) {
-    console.log("restricted: token exists:\n", token, jwtSecrets);
-    jwt.verify(token, jwtSecrets, (err, decodedToken) => {
+    console.log("restricted: token exists:\n", secrets, secrets.jwtSecret);
+    jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
       if (err) {
         console.log("restricted: jwt.verify error:\n", err, decodedToken);
         res
           .status(401)
           .json({ message: "authorization failed. Token is different" });
       } else {
-        console.log("restricted: jwt.verify no error");
+        console.log("restricted: jwt.verify no error:\n", decodedToken);
         if (req.params.id) {
           if (decodedToken.subject == req.params.id) {
             next();
@@ -74,19 +74,21 @@ exports.restricted = (req, res, next) => {
   }
 };
 
-exports.veryNewUser = (req, res, next) => {
+exports.verifyNewUser = (req, res, next) => {
   const { username, password } = req.body;
   if (username && password) {
-    users.findBy(username).then(user => {
-      if (user) {
+    users.findBy({ username }).then(user => {
+      console.log("verifyNewUser.findBy:", user, user.length);
+      if (!user || user.length === 0) {
+        next();
+      } else {
         res
           .status(400) //error
           .json({ message: "username already exists" });
-      } else {
-        next();
       }
     });
   } else {
+    console.log("veryifyNewUser name/pass fails");
     res
       .status(400) //error
       .json({ message: "username and password fields required" });

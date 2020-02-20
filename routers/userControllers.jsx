@@ -93,7 +93,7 @@ exports.getAllUsers = (req, res, next) => {
   console.log("userToken:", userToken);
   Users.findAllBy({ department: matchDepartment(userToken) })
     // Users.find()
-    .orderBy("id")
+    // .orderBy("id")
     .then(users => {
       res
         .status(200) //success
@@ -135,7 +135,7 @@ exports.logout = (req, res, next) => {
 function matchDepartment(token) {
   let department = null;
   if (token) {
-    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+    jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
       if (!err) {
         department = decodedToken.department;
       }

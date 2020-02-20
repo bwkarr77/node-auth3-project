@@ -6,11 +6,10 @@ function find() {
 }
 
 function findBy(filter) {
-  // console.log("findByfilter: ", filter);
+  console.log("model.findByfilter: ", filter);
   return db("users")
     .where(filter)
-    .select("id", "username", "password", "department")
-    .first();
+    .select("id", "username", "password", "department");
 }
 
 async function findAllBy(filter) {
@@ -34,14 +33,31 @@ function findById(id) {
     .first();
 }
 
-// async function remove(userId) {
-//   const deleteUser = await
-// }
+async function remove(userId) {
+  const deletedUser = await findBy({ id: userId });
+  return await db("users")
+    .where("users.id", userId)
+    .del()
+    .then(res => {
+      console.log("remove.res:", res);
+    });
+}
+
+async function update(id, changes) {
+  return db("users")
+    .where("users.id", id)
+    .update(changes)
+    .then(res => {
+      console.log("update.res:", res);
+    });
+}
 
 module.exports = {
   add,
   findById,
   find,
   findBy,
-  findAllBy
+  findAllBy,
+  update,
+  remove
 };
