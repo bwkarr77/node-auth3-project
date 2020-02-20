@@ -36,7 +36,6 @@ const logger = (req, res, next) => {
 module.exports = server => {
   server.use(logger);
   server.use(helmet());
-
   server.use(cors());
   server.use(express.json());
   server.use(session(sessionOptions));

@@ -67,12 +67,12 @@ exports.createUser = (req, res, next) => {
 // @desc    login with credentials in header
 // @route   POST to /api/auth/login
 exports.userLogin = (req, res, next) => {
-  const loginUserToken = generateToken(req.body);
   let { user, loggedin } = req.session;
+  const loginUserToken = generateToken(user);
+
   console.log(
     "userControllers>userLogin:",
-    user,
-    loggedin,
+    req.session,
     "\nloginUserToken:",
     loginUserToken
   );
@@ -88,11 +88,12 @@ exports.userLogin = (req, res, next) => {
 // @desc    GET to obtain all users
 // @route   GET to /api/users
 exports.getAllUsers = (req, res, next) => {
-  const loggedInUser = req.session.user;
-  console.log("userController.getAllUsers:", req.session);
-  Users.find()
+  // const loggedInUser = req.session.user;
+  const userToken = req.headers.authorization;
+  console.log("userToken:", userToken);
+  Users.findAllBy({ department: matchDepartment(userToken) })
+    // Users.find()
     .orderBy("id")
-    // .where(loggedInUser.department)
     .then(users => {
       res
         .status(200) //success
@@ -130,3 +131,15 @@ exports.logout = (req, res, next) => {
     res.end();
   }
 };
+
+function matchDepartment(token) {
+  let department = null;
+  if (token) {
+    jwt.verify(token, jwtSecret, (err, decodedToken) => {
+      if (!err) {
+        department = decodedToken.department;
+      }
+    });
+  }
+  return department;
+}

@@ -5,11 +5,18 @@ function find() {
   return db("users").select("id", "username", "department");
 }
 
-function findByCredentials(credentials) {
-  // console.log("findByCredentials: ", credentials);
+function findBy(filter) {
+  // console.log("findByfilter: ", filter);
   return db("users")
-    .where(credentials)
-    .select("id", "username", "password", "department");
+    .where(filter)
+    .select("id", "username", "password", "department")
+    .first();
+}
+
+async function findAllBy(filter) {
+  return await db("users")
+    .select("id", "username", "department")
+    .where(filter);
 }
 
 async function add(user) {
@@ -27,9 +34,14 @@ function findById(id) {
     .first();
 }
 
+// async function remove(userId) {
+//   const deleteUser = await
+// }
+
 module.exports = {
   add,
   findById,
   find,
-  findByCredentials
+  findBy,
+  findAllBy
 };
