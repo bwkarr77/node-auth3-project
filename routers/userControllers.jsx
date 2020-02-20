@@ -132,6 +132,53 @@ exports.logout = (req, res, next) => {
   }
 };
 
+exports.deleteUser = (req, res, next) => {
+  console.log("deleteUser started...");
+  const { id } = req.params;
+  Users.remove(id)
+    .then(deletedUser => {
+      console.log("userController.deletedUser:", deletedUser);
+      res
+        .status(200) //success
+        .json({ successfulMessage: `You have deleted ${id}` });
+    })
+    .catch(err => {
+      res
+        .status(500) //
+        .json({ deleteErr: "could not delete user", error: err });
+    });
+};
+
+exports.updateUser = async (req, res, next) => {
+  console.log("updateUser ran....", req);
+  const { id } = req.params;
+  const { username, password, department } = req.body;
+  try {
+    let updatedUser;
+    if (password) {
+      const newPass = bcrypt.hashSync(password, 14);
+      updatedUser = await Users.update(id, {
+        username: username,
+        password: newPass,
+        department: department
+      });
+    } else {
+      updatedUser = await Users.update(id, {
+        username: username,
+        department: department
+      });
+    }
+    res
+      .status(200) //success
+      .json(updatedUser);
+  } catch (err) {
+    console.log("updatedUser.err:", err);
+    res
+      .status(500) //fail
+      .json({ updateErr: "could not update user info" });
+  }
+};
+
 function matchDepartment(token) {
   let department = null;
   if (token) {

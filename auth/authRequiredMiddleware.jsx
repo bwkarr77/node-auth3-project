@@ -51,7 +51,7 @@ exports.restricted = (req, res, next) => {
 
   const token = req.headers.authorization;
   if (token) {
-    console.log("restricted: token exists:\n", secrets, secrets.jwtSecret);
+    console.log("restricted: token exists:\n");
     jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
       if (err) {
         console.log("restricted: jwt.verify error:\n", err, decodedToken);

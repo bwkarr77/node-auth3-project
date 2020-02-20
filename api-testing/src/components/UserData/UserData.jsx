@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import UserCard from "./UserCard.jsx";
 
 import { startEdit, deleteUnit, getData } from "../../actions/actions";
 
@@ -37,7 +38,10 @@ const UserData = ({
             console.log(".foreach:", ele.id);
             return (
               <li>
-                Users: {ele.username}, Department: {ele.department}
+                <div>
+                  {/* Users: {ele.username}, Department: {ele.department} */}
+                  <UserCard userData={ele} />
+                </div>
               </li>
             );
           })}
