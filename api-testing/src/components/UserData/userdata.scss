@@ -1,0 +1,19 @@
+.user-card {
+  border: 1px solid green;
+  background: lightblue;
+  border-radius: 10px;
+  width: 200px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.userdata ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: auto;
+}
+
+.userdata button {
+  margin: 0 5px;
+}
