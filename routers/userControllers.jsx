@@ -150,7 +150,7 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.updateUser = async (req, res, next) => {
-  console.log("updateUser ran....", req);
+  console.log("updateUser ran....", req.body);
   const { id } = req.params;
   const { username, password, department } = req.body;
   try {

@@ -156,16 +156,16 @@ export const setData = list => ({
 export const deleteUnit = unit => dispatch => {
   console.log(`unit:`, unit, `\n.id:,`, unit.id);
   //unit = {id: #, label: '', data: [], others...}
-  /*
+
   axiosWithAuth()
-    // .delete(`${apiData}/${unit.id}`)
-    // .then(res => dispatch({ type: DELETEUNIT, payload: res.data.payload }))
+    .delete(`${apiGet}/${unit.id}`)
+    .then(res => {
+      console.log("delete.then...");
+      return dispatch({ type: DELETEUNIT, payload: res.data.payload });
+    })
     //-----
-    .delete(apiPosts)
-    .then(res => dispatch({ type: DELETEUNIT, payload: unit }))
     //-----
     .catch(err => {
       console.log("actions > deleteUnit.err: ", err);
     });
-    */
 };

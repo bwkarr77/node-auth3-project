@@ -163,15 +163,6 @@ export const rootReducer = (state = initialState, { type, payload }) => {
       };
     case EDITDATASUCCESS:
       console.log(payload);
-      /*
-      return {
-        ...state,
-        err: "",
-        isEditing: false,
-        dataToEdit: {},
-        reFetch: !state.reFetch
-      };
-      */
       console.log(
         "=============CHANGE reducer>EDITDATASUCCESS=================="
       );
@@ -289,19 +280,17 @@ export const rootReducer = (state = initialState, { type, payload }) => {
         error: ""
       };
     case DELETEUNIT:
+      console.log("deleteUnit:", payload);
       return {
         ...state,
         reFetch: !state.reFetch,
-        userData: {
-          ...state.userData,
-          datasets: state.userData.datasets.filter((dataset, index) => {
-            if (dataset.id === payload.id) {
-              return false;
-            } else {
-              return true;
-            }
-          })
-        }
+        userData: state.userData.filter((data, index) => {
+          if (data.id === payload.id) {
+            return false;
+          } else {
+            return true;
+          }
+        })
       };
     case LOGOUT:
       return {
@@ -316,16 +305,11 @@ export const rootReducer = (state = initialState, { type, payload }) => {
         isFetching: false,
         //data storage
         userData: "",
-        // is_Array1: [],
-        // is_Object1: {},
-        //adding data
         isAdding: false,
         newData: {
           label: "",
           data: []
         },
-        isNewBranch: false,
-        newBranch: [],
         //editing data
         isEditing: false,
         initialData: {

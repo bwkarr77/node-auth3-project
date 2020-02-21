@@ -37,7 +37,7 @@ exports.authorize = (req, res, next) => {
 };
 
 exports.restricted = (req, res, next) => {
-  console.log("restricted");
+  console.log("restricted", req.body, req.headers);
   /*
   if (req.session.loggedin && req.session.loggedin === true) {
     next();

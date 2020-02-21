@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import "./userdata.scss";
 
 import { startEdit, deleteUnit, getData } from "../../actions/actions";
 
@@ -20,6 +21,16 @@ const UserCard = ({
       {/* <h3>UserData:</h3> */}
       <p>Name: {userData.username}</p>
       <p>Department: {userData.department}</p>
+      <button
+        className="delete"
+        onClick={e => {
+          e.stopPropagation();
+          deleteUnit(userData);
+        }}
+      >
+        Remove User
+      </button>
+      <button>Edit User</button>
     </div>
   );
 };
